@@ -15,6 +15,12 @@ cp ~/.gitconfig ./share/.gitconfig
 vagrant up
 ```
 
+### 不要となったファイルを削除
+```sh
+rm ./share/id_rsa
+rm ./share/.gitconfig
+```
+
 ### ssh config を設定する
 ```sh
 vagrant ssh-config >> ~/.ssh/config
