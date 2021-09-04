@@ -29,7 +29,7 @@ vagrant ssh-config >> ~/.ssh/config
 エディタで `~/.ssh/config` を編集し、
 追加された ssh-config の `Host` を `development.local` に変更する。
 
-### Configure vs code
+### vs code から remote development を使う
 `development.local` に対して Remote Development を使う。
 詳しくは、[VS Code Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) を参照。
 
