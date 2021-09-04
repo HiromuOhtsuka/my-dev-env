@@ -36,12 +36,13 @@ vagrant ssh-config >> ~/.ssh/config
 ## Share
 `./share` がホストとゲストで共有されるディレクトリです。
 
-## 開始
+## 開発
+### 開始
 ```sh
 vagrant up
 ```
 
-## 終了
+### 終了
 ```sh
 vagrant halt
 ```
