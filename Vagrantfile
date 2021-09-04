@@ -1,6 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox" do |v|
-    v.name = "development"
+    v.name = "dev.local"
   end
 
   config.vm.box = "ubuntu/hirsute64"
