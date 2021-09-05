@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   end
   config.vm.disk :disk, size: "10GB", primary: true
 
-  config.vm.provision :shell, path: "ssh-key.sh"
+  config.vm.provision :shell, path: "configure-ssh-key.sh"
   config.vm.provision :shell, path: "git-config.sh"
   config.vm.provision :shell, path: "install-golang.sh"
   config.vm.provision :shell, path: "install-docker.sh"
