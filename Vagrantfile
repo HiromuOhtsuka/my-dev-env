@@ -17,4 +17,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, path: "git-config.sh"
   config.vm.provision :shell, path: "install-golang.sh"
   config.vm.provision :shell, path: "install-docker.sh"
+  config.vm.provision :shell, path: "install-minikube.sh"
 end
