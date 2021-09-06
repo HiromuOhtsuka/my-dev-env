@@ -1,4 +1,6 @@
 #!/bin/sh
 set -eux
 
-apt-get install -y golang
+add-apt-repository ppa:longsleep/golang-backports
+apt update
+apt install -y golang-go
