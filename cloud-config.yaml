@@ -1,0 +1,46 @@
+timezone: Asia/Tokyo
+locale: ja_JP.utf8
+
+groups:
+- docker
+
+users:
+- name: docker
+  primary_group: docker
+
+packages:
+# tools
+- make
+- wget
+- zip
+- unzip
+# language
+- gcc
+- g++
+- golang
+# docker
+- apt-transport-https
+- ca-certificates
+- curl
+- gnupg
+- lsb-release
+
+runcmd:
+- ARCH=$(dpkg --print-architecture)
+# docker
+- usermod -aG docker ubuntu
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+- echo "deb [arch=${ARCH} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+- apt-get update
+- apt-get install -y docker-ce=5:20.10.10~3-0~ubuntu-focal docker-ce-cli=5:20.10.10~3-0~ubuntu-focal containerd.io
+- systemctl enable docker.service
+- systemctl enable containerd.service
+# minikube
+- curl -LO https://storage.googleapis.com/minikube/releases/v1.24.0/minikube_v1.24.0_${ARCH}.deb
+- dpkg -i minikube_v1.24.0_${ARCH}.deb
+# kubectl
+- curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.22.3/bin/linux/${ARCH}/kubectl"
+- install kubectl /usr/local/bin/
+# skaffold
+- curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/v1.34.0/skaffold-linux-${ARCH}
+- install skaffold /usr/local/bin/

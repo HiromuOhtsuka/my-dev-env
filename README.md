@@ -1,56 +1,38 @@
 # my-dev-env
 ## 必要
-- Vagrant
+- [multipass](https://multipass.run/)
 
-## セットアップ
-## Shareディレクトリの作成と必要なファイル群をコピー
-```sh
-mkdir -p ./share
-cp ~/.ssh/id_rsa ./share/id_rsa
-cp ~/.gitconfig ./share/.gitconfig
-```
-
+## VM を作成する
 ### VM を作成する
 ```sh
-vagrant up
+$ make launch
 ```
 
-### 不要となったファイルを削除
+## ssh を設定する
 ```sh
-rm ./share/id_rsa
-rm ./share/.gitconfig
+$ VM_IP_ADDRESS=$(multipass info --format json primary | jq -r '.info.primary.ipv4[0]')
+$ cat <<EOS >> ~/.ssh/config
+Host dev
+    HostName ${VM_IP_ADDRESS}
+    User ubuntu
+EOS
 ```
-
-### ssh config を設定する
 ```sh
-vagrant ssh-config >> ~/.ssh/config
+$ multipass shell
+# @primary
+$ cp ~/Home/.ssh/${YOUR_SSH_PUBLIC_KEY_FILE} ~/.ssh/${YOUR_SSH_PUBLIC_KEY_FILE}
+$ cat ~/Home/.ssh/${YOUR_SSH_SECRET_KEY_FILE} >> ~/.ssh/authorized_keys
+$ eval "$(ssh-agent -s)"
+$ ssh-add ~/.ssh/${YOUR_SSH_SECRET_KEY_FILE}
 ```
 
-エディタで `~/.ssh/config` を編集し、
-追加された ssh-config の `Host` を `dev.local` に変更する。
+### git を設定する
+```sh
+$ multipass shell
+# @primary
+$ cp ~/Home/.gitconfig ~/.gitconfig
+```
 
 ### vs code から remote development を使う
-`dev.local` に対して Remote Development を使う。
+`dev` に対して Remote Development を使う。
 詳しくは、[VS Code Remote Development](https://code.visualstudio.com/docs/remote/remote-overview) を参照。
-
-## Share
-`./share` がホストとゲストで共有されるディレクトリです。
-
-## 開発
-### 開始
-```sh
-vagrant up
-```
-
-### 終了
-```sh
-vagrant halt
-```
-
-## 環境の編集
-新たにパッケージを追加する際は、ここに as code として残すこと。
-
-## バックアップ
-```sh
-vagrant package --output=package_$(date "+%Y%m%d_%H%M%S").box
-```
